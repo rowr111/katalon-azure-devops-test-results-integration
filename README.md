@@ -69,4 +69,4 @@ You can build packages that will work on any of MacOS/Windows/Linux via the comm
 
 
 ## Questions/Comments?
-Tweet me at @rowr or find me on the Katalon forum as user jeanie.conner
+Tweet me @rowr or find me on the Katalon forum as user jeanie.conner

@@ -10,9 +10,9 @@ It depends on [Microsoft.TeamFoundationServer.Client](https://www.nuget.org/pack
 You can build packages that will work on any of MacOS/Windows/Linux via the commands [described on the dotnet core deployment page](https://docs.microsoft.com/en-us/dotnet/core/deploying/).
 
 ## Prerequisites
-- Katalon runs must generate 
-- [User Personal Access Token](https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=preview-page) - this must be created and used to authenticate.  
-- test results will be reported as being run by this user.
+- Katalon runs must generate reports
+- Azure [User Personal Access Token](https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=preview-page) - this must be created and used to authenticate.  
+ - test results will be reported as being run by this user.
 - all test cases for one Katalon Test Suite must be under the same Test Plan in Azure DevOps
 - Important Concept - Test Point ID:
   - Test Case results are reported specifically for the unique Test Case + Test Plan/Test Suite combination. 
@@ -26,7 +26,34 @@ You can build packages that will work on any of MacOS/Windows/Linux via the comm
 ## Setup of Test Suite and Test Cases in Katalon
 - suffix Test Suite names with the Test Plan ID, in parentheses:  `Test Suite Blah (1234)`
   - if there is no ID, the Test Suite will be skipped
-- suffix Test Case names with the Test Point ID for that Test Case/Test Plan combo in Azure DevOps as per the prerequisites.
+- suffix Test Case names with the Test Point ID for that Test Case/Test Plan combo in Azure DevOps as per the prerequisites. `Test Case Name Blah (5678)`
   - if there is no ID, the Test Case will be skipped
 
+## How to run
+ - replace ORGANIZATION_NAME PROJECT_NAME UserPAT KATALON_REPORTS_DIRECTORY with your own information as is appropriate.
+ 
+ - Visual Studio Code terminal:
+   - `dotnet run ORGANIZATION_NAME PROJECT_NAME UserPAT KatalonReportsDirectory`
+  
+ - compiled version from powershell or terminal on mac:
+   - `dotnet katalon_azure_integration.dll ORGANIZATION_NAME PROJECT_NAME UserPAT KATALON_REPORTS_DIRECTORY`
+   
+ - Azure DevOps Pipeline yml file - run this task after all your Katalon tests have completed.
+  ```task: PowerShell@2
+    inputs:
+      targetType: 'inline'
+      script: |
+        $ReportsDir = Get-Item GET_YOUR_REPORTS_DIRECTORY
+        dotnet katalon_azure_integration.dll ORGANIZATION_NAME PROJECT_NAME UserPAT $ReportsDir
+      workingDirectory: YOUR_WORKING_DIRECTORY
+  ```
+      
 ## What it does
+ - iterates through every report file
+ - if the test suite was executed less than 12 hours ago
+   - checks the test suite for a test plan id
+   - if a test plan id exists
+     - checks each test for a test point id, and if a test point id exists
+       - records if the test passed or not (everything except passed will be marked as failed)
+ - creates a test run in Azure DevOps
+ - uploads the results found to Azure DevOps

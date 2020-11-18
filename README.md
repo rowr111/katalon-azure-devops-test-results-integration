@@ -7,13 +7,13 @@ Currently, there is no way to link execution results of Test Cases in Katalon wi
 - there is currently no convenient way to view the list of test plans in Azure DevOps and automatically select the test plan number and test point id
   - this must be gotten manually and added to the test suite and test case names, which could be difficult to maintain
   - a plugin in the future could log into Azure DevOps and show these as an option for selection, and automatically get the correct test point id for the test case at the time of reporting
-- azure devops test points are also dependent on 'configuration' which cannot be modified per test case with this console app
+- azure devops test points are also dependent on 'configuration' (browser type, etc) which cannot be modified per test case with this console app
   - in the future it would be nice to be able to this automatically detected somehow, although I'm not sure how this would be done currently.
 
 ## Prerequisites
 - Katalon runs must generate reports
 - Azure [User Personal Access Token](https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&tabs=preview-page) - this must be created and used to authenticate.  
- - test results will be reported as being run by this user.
+  - test results will be reported as being run by this user.
 - all test cases for one Katalon Test Suite must be under the same Test Plan in Azure DevOps
 - Important Concept - Test Point ID:
   - Test Case results are reported specifically for the unique Test Case + Test Plan/Test Suite combination. 

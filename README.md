@@ -59,7 +59,7 @@ You can build packages that will work on any of MacOS/Windows/Linux via the comm
       
 ## What it does
  - iterates through every report file
- - if the test suite was executed less than 12 hours ago
+ - if the test suite was executed less than 12 hours ago (this tool was written originally for use in Azure Devops Pipeline where the reports folder is empty to start every time, if you're running test suites over and over this might not be ideal for you)
    - checks the test suite for a test plan id
    - if a test plan id exists
      - checks each test for a test point id, and if a test point id exists

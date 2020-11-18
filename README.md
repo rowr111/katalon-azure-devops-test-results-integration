@@ -1,7 +1,7 @@
 # katalon -> azure devops test results integration
 Console app that reads test results from Katalon's Reports file and uploads test case results that are properly tagged to Azure DevOps as test run results.
 
-Currently, there is no way to link execution results of Test Cases in Katalon with Test Run Reults in Azure DevOps.  This simple console app will upload a simple passed/failed for a test in Azure Devops based on the relevant Katalon Test Case result.
+Currently, there is no way to link execution results of Test Cases in Katalon with Test Run Results in Azure DevOps.  This simple console app will upload a simple passed/failed for a test in Azure Devops based on the relevant Katalon Test Case result.
 
 ### currently lacking areas
 - there is currently no convenient way to view the list of test plans in Azure DevOps and automatically select the test plan number and test point id

@@ -1,13 +1,14 @@
 # katalon -> azure devops test results integration
- console app that reads test results from Katalon's Reports file and uploads test case results that are properly tagged to Azure Devops Pipeline
+Console app that reads test results from Katalon's Reports file and uploads test case results that are properly tagged to Azure DevOps as test run results.
 
-Currently there is no way to link Test Cases in Azure DevOps with Katalon test results.  This simple console app will upload a simple passed/failed for a test in Azure Devops based on the relevant Katalon Test Case result.
+Currently, there is no way to link execution results of Test Cases in with Katalon witb in Azure DevOps.  This simple console app will upload a simple passed/failed for a test in Azure Devops based on the relevant Katalon Test Case result.
 
-## How to build
-This app was built with .NET Core and Visual Studio Code on Windows.  
-It depends on [Microsoft.TeamFoundationServer.Client](https://www.nuget.org/packages/Microsoft.TeamFoundationServer.Client/), get the package via the attached link and install it via terminal within VS Code.
-
-You can build packages that will work on any of MacOS/Windows/Linux via the commands [described on the dotnet core deployment page](https://docs.microsoft.com/en-us/dotnet/core/deploying/).
+### currently lacking areas
+- there is currently no convenient way to view the list of test plans in Azure DevOps and automatically select the test plan number and test point id
+  - this must be gotten manually and added to the test suite and test case names, which could be difficult to maintain
+  - a plugin in the future could log into Azure DevOps and show these as an option for selection, and automatically get the correct test point id for the test case at the time of reporting
+- azure devops test points are also dependent on 'configuration' which cannot be modified per test case with this console app
+  - in the future it would be nice to be able to this automatically detected somehow, although I'm not sure how this would be done currently.
 
 ## Prerequisites
 - Katalon runs must generate reports
@@ -28,6 +29,14 @@ You can build packages that will work on any of MacOS/Windows/Linux via the comm
   - if there is no ID, the Test Suite will be skipped
 - suffix Test Case names with the Test Point ID for that Test Case/Test Plan combo in Azure DevOps as per the prerequisites. `Test Case Name Blah (5678)`
   - if there is no ID, the Test Case will be skipped
+
+## How to build
+This app was built with .NET Core and Visual Studio Code on Windows.  
+It depends on [Microsoft.TeamFoundationServer.Client](https://www.nuget.org/packages/Microsoft.TeamFoundationServer.Client/), get the package via the attached link and install it via terminal within VS Code.
+
+You can build packages that will work on any of MacOS/Windows/Linux via the commands [described on the dotnet core deployment page](https://docs.microsoft.com/en-us/dotnet/core/deploying/).
+
+
 
 ## How to run
  - replace ORGANIZATION_NAME PROJECT_NAME UserPAT KATALON_REPORTS_DIRECTORY with your own information as is appropriate.
@@ -57,3 +66,7 @@ You can build packages that will work on any of MacOS/Windows/Linux via the comm
        - records if the test passed or not (everything except passed will be marked as failed)
  - creates a test run in Azure DevOps
  - uploads the results found to Azure DevOps
+
+
+## Questions/Comments?
+Tweet me at @rowr or find me on the Katalon forum as user jeanie.conner
